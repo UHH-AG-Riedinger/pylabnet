@@ -1,0 +1,16 @@
+{
+    "servers" : [
+        {
+            "type" : "thorlabs_pm320e",
+            "config" : "thorlabs_pm320e",
+            "auto_launch" : "True"
+        }
+
+    ],
+    "script" : "path2pylabnet/pylabnet/pylabnet/scripts/power_meter/pm320e.py",
+    "device_id" : "PM101 S/N:M00940375 - S120C S/N:230112515",
+    "script_service" : "True",
+    "wm_type": [
+        "thorlabs_pm320e"
+    ]
+}
