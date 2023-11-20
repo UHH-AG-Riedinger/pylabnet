@@ -22,7 +22,7 @@ import numpy as np
 import sys
 import traceback
 
-from pylabnet.utils.helper_methods import parse_args, hide_console
+from pylabnet.utils.helper_methods import parse_args, hide_console, load_device_config
 from pylabnet.utils.logging.logger import LogClient
 
 
@@ -76,6 +76,9 @@ def main():
     server_logger.update_data(data=dict(device_id=device_id))
     # Add lab name of server to LogClient data dict
     server_logger.update_data(data=dict(lab_name=lab_name))
+    # Add server type to LogClient data dict to facilitate client connections ##RR-2023-11-17
+    server_logger.update_data(data=dict(server_type=server))
+    #server_logger.update_data(data=dict(nickname=)) ## to be implemented
 
     # Retrieve debug flag.
     debug = int(args['debug'])
@@ -102,8 +105,10 @@ def main():
     try:
         mod_inst = importlib.import_module(f'servers.{server}')
     except ModuleNotFoundError:
-        server_logger.error(f'No module found in pylabnet.launchers.servers named {server}.py')
-        raise
+        #try easy_launch.... #### RR test
+        mod_inst = importlib.import_module(f'servers.easy_launch')
+        #server_logger.error(f'No module found in pylabnet.launchers.servers named {server}.py')
+        #raise
 
     tries = 0
     update_flag = False
@@ -112,7 +117,13 @@ def main():
             server_port = np.random.randint(1024, 49151)
             update_flag = True
         try:
-            mod_inst.launch(logger=server_logger, port=server_port, device_id=device_id, config=config)
+            mod_inst.launch(logger=server_logger, port=server_port, device_id=device_id,
+                            config=config, device_type=server)
+            config_dict = load_device_config(server, config) #experimental RR2023-11-20
+            if 'nickname' in config_dict:
+                nickname = config_dict['nickname']
+                server_logger.update_data(data=dict(nickname=nickname))
+
             if update_flag:
                 server_logger.update_data(data=dict(port=server_port))
             tries = 10

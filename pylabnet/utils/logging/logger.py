@@ -129,7 +129,7 @@ class LogClient:
         DEBUG=10
     )
 
-    def __init__(self, host, port, key='pylabnet.pem', module_tag='', server_port=None, ui=None):
+    def __init__(self, host=None, port=None, key='pylabnet.pem', module_tag='', server_port=None, ui=None):
 
         # Declare all internal vars
         self._host = ''
@@ -150,6 +150,14 @@ class LogClient:
         # except:
         #     print('found no lab_name config file, assigning to NO LAB')
         #     self.lab_name = None
+
+        # Connect to master logger by default RR2023-11-17
+        if host is None:
+            master_data = load_config('static_proxy')
+            host = master_data['master_ip']
+            port = master_data['master_log_port']
+            if module_tag is '':
+                module_tag = 'defaultLogClient'
 
         # Set module alias to display with log messages
         self._module_tag = module_tag
@@ -546,3 +554,18 @@ class LogService(rpyc.Service):
         """ Returns all client metadata"""
 
         return pickle.dumps(self.metadata)
+
+
+def get_master_logger_client(module_tag='temp_logger'):
+    #is redundant due to default LogClient RR2023-11-17
+    try:
+        master_data = load_config('static_proxy')
+
+        logger = LogClient(
+            host=master_data['master_ip'],
+            port=master_data['master_log_port'],
+            module_tag=module_tag
+        )
+    except:
+        return None
+    return logger

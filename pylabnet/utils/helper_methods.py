@@ -16,6 +16,7 @@ from datetime import datetime
 from pylabnet.network.core.generic_server import GenericServer
 import pyqtgraph as pg
 import pyqtgraph.exporters
+import importlib
 
 
 class TimeAxisItem(pg.AxisItem):
@@ -751,6 +752,76 @@ def find_client(clients, settings, client_type, client_config=None, logger=None)
     # If only 1 matched client, just return
     else:
         return found_clients[0]
+
+
+def autoconnect_device(device_tag=None, logger=None):
+    #may make sense to elevate it to high level util
+
+    #if logger is None: ########## This may be cyclic definition. could dynamically load
+    #    logger = get_master_logger_client(module_tag='autoconnect_log')
+
+    if device_tag is None:
+        logger.error('no device_tag provided')
+        #logger.close_server()
+        return None
+    elif type(device_tag) is str:
+        dev_tag_list = [device_tag]
+        n_instr = 1
+    elif type(device_tag) is list:
+        dev_tag_list = device_tag
+        n_instr = len(dev_tag_list)
+    else:
+        logger.error(f'device_tag is {type(device_tag)} instead of str or list')
+        #logger.close_server()
+        return None
+
+    dev_clients = []
+
+    client_data = logger.get_client_data()
+    for dev_tag in dev_tag_list:
+
+        if dev_tag not in client_data:
+            #find if nickname was used
+            correct_client = None
+            for clients in client_data:
+                if 'nickname' in client_data[clients]:
+                    if client_data[clients]['nickname'] == dev_tag:
+                        correct_client = clients
+                        break
+        else:
+            correct_client = dev_tag
+        if correct_client is None:
+            logger.error(f'invalid device_tag or nickname {dev_tag}')
+            dev_clients.append(None)
+            break
+        try:
+            server = client_data[correct_client]['server_type']
+            ip = client_data[correct_client]['ip']
+            port = client_data[correct_client]['port']
+        except:
+            logger.error(f'insufficient client_data for {dev_tag}')
+            dev_clients.append(None)
+            break
+
+        # Instantiate client
+        try:
+            mod_inst = importlib.import_module(f'pylabnet.network.client_server.{server}')
+        except ModuleNotFoundError:
+            logger.error(f'No module found in pylabnet.network.client_server named {server}.py')
+            #logger.close_server()
+            raise
+        dev_instance = mod_inst.Client(
+            host=ip,
+            port=port,
+        )
+        dev_clients.append(dev_instance)
+
+    #logger.close_server() #not sure this does anything here... RR2023-11-17
+    if n_instr == 1:
+        return dev_clients[0]
+    else:
+        return dev_clients
+    ##### RR2023-11-17: allows for searching for devices by device_tag or nickname
 
 
 def launch_device_server(server, dev_config, log_ip, log_port, server_port, debug=False, logger=None):
