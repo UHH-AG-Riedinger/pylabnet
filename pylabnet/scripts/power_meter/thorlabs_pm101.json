@@ -8,7 +8,7 @@
 
     ],
     "script" : "GithubSync/pylabnet/pylabnet/scripts/power_meter/thorlabs_pm101.py",
-    "nickname" : "red power_meter",
+    "device_id" : "0x1313::0x8076::M00940375",
     "script_service" : "True",
     "wm_type": [
         "thorlabs_pm101"
