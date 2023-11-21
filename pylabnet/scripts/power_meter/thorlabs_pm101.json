@@ -1,0 +1,16 @@
+{
+    "servers" : [
+        {
+            "type" : "thorlabs_pm101",
+            "config" : "thorlabs_pm101",
+            "auto_launch" : "True"
+        }
+
+    ],
+    "script" : "GithubSync/pylabnet/pylabnet/scripts/power_meter/thorlabs_pm101.py",
+    "nickname" : "red power_meter",
+    "script_service" : "True",
+    "wm_type": [
+        "thorlabs_pm101"
+    ]
+}
