@@ -31,7 +31,9 @@ class Driver:
         self.log = LogHandler(logger=logger)
         self.log.info('launching superK driver')
 
-        self.read_power()
+        self.emission_off()
+
+        self.read_power() # Is currently not working, so we just ignore it bc we need to get the NKTP_DLL file on the PC first
         return
 
     def emission_on(self):
