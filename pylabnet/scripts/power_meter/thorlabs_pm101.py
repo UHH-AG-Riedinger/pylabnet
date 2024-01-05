@@ -11,13 +11,10 @@ logger = lg.LogClient()
 
 pmX = hm.autoconnect_device(device_tag='red power meter', logger=logger)
 
-# loading doesn't work, maybe the path is wrong?
-# Plan was to load it from there, so it's included in the gitignore files and the Token isn't uploaded to the internet.
-# It is a security risk for discord to have the Token of a bot uploaded to the internet
-# Other Idea: Disable the Discord security measurements
-load_dotenv('C:\\GithubSync\\pylabnet\\pylabnet\\configs\\devices\\thorlabs_pm101')
-TOKEN = os.getenv('DISCORD_TOKEN') # Because loading didn't work, the TOKEN equals None right now
-print('Token:' + str(TOKEN)) # This is a print statement to test if the Token has a not None value
+
+load_dotenv("C:\GithubSync\pylabnet\pylabnet\Discord_tokens\discord.env")
+TOKEN = os.getenv('DISCORD_TOKEN')
+# print('Token:' + str(TOKEN)) # This is a print statement to test if the Token has a not None value
 
 intents = discord.Intents.default()
 intents.message_content = True
@@ -42,8 +39,7 @@ async def on_message(message):
         power = pmX.get_power()
         await message.channel.send("The power of the red power meter is at: " + str(power))
 
-client.run('MTE3NzI0MTc3MjY3ODcwOTI4OA.GTh7fV.WiR-SaLaMmtkCqLQRXyW5_mkRGoU_fTMk2Y2Gk')
-#client.run(TOKEN) doesn't work right now, because TOKEN equals None
+client.run(TOKEN) # This is the actual token that is used to run the bot
 
 """
 for i in range(5):
