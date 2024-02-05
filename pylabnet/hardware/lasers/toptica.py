@@ -1,13 +1,12 @@
 from telnetlib import Telnet
 from copy import deepcopy
-
 from pylabnet.utils.logging.logger import LogHandler
 
 
 class DLC_Pro:
     """ Driver class for Toptica DLC Pro """
 
-    def __init__(self, host, port=1998, logger=None, num_lasers=2):
+    def __init__(self, host, port=1998, logger=None, num_lasers=1):
         """ Instantiates DLC_Pro object
 
         :param host: (str) hostname of laser (IP address)
@@ -31,10 +30,36 @@ class DLC_Pro:
 
             for laser_num in self.laser_nums:
                 self._check_laser_connection(laser_num)
+                #self.log.info(f'skipped connection step')
 
         except ConnectionRefusedError:
             self.log.error('Could not connect to Toptica DLC Pro at '
                            f'IP address: {self.host}, port: {self.port}')
+
+        self.dlc.write(f"(param-disp 'laser1:dl:cc:status)\n".encode('utf'))
+        remote_control = self.dlc.read_until(b'>', timeout=3).split()[-3].decode('utf')#[1:-1]
+
+        #self.dlc.write("(param-set! 'laser:1 #t)\n".encode('utf'))
+        #remote_control2 = self.dlc.read_until(b'>', timeout=1).split()[-3].decode('utf')[1:-1]
+        self.log.info(f'Status: {remote_control}')
+
+        '''This is how to address the dlc pro from toptica:
+        When you start the toptica Software "TOPAS Toptica pro and then open the
+        parameters the open a window with the parameters of the laser.
+        As example the emission is in laser1->dl->cc->emission.
+        The command for this parameter is then: write(f"(param-disp 'laser1:dl:cc:status)\n".encode('utf'))
+        The command to set a paramter, as example if the laser is on or off is:
+        write(f"(param-set! 'laser1:dl:cc:enabled #t)\n".encode('utf'))
+        #t is for true and #f is for false
+        To set parametrs use "param-set!" and to read parameters use "param-disp" or "param-ref". We dont know exactly about the last one
+        
+        To read out we use following command:
+        message = self.dlc.read_until(b'>', timeout=3).split()[-3].decode('utf')#[1:-1]
+        The read message consists of the message send a answear and sometimes more.
+        To only get the answear we use the split()[-3] command. The [-3] is the third last element of the list.
+        The list is created by the split command. The split command splits the message at the spaces and \n.
+        Unfortunately the answear is not always the third last element. Sometimes it is the second last element or otherwise.
+        '''
 
     def _check_laser_connection(self, laser_num=1):
         """ Read out laser number
@@ -45,8 +70,16 @@ class DLC_Pro:
         self.dlc.write(f"(param-disp 'laser{laser_num}:dl:type)\n".encode('utf'))
         laser_type = self.dlc.read_until(b'>', timeout=1).split()[-3].decode('utf')[1:-1]
         self.dlc.write(f"(param-disp 'laser{laser_num}:dl:serial-number)\n".encode('utf'))
-        serial = int(self.dlc.read_until(b'>', timeout=1).split()[-3].decode('utf')[1:-1])
+        serial = self.dlc.read_until(b'>', timeout=1).split()[-3].decode('utf')[1:-1]
         self.log.info(f'Connected to Toptica {laser_type} {laser_num}, S/N {serial}')
+
+    def write(self, command):
+        """ Writes command to DLC Pro
+
+        :param command: (str) command to write
+        """
+
+        self.dlc.write(command.encode('utf'))
 
     def is_laser_on(self, laser_num=1):
         """ Checks if the laser is on or off
