@@ -1,5 +1,4 @@
 import ctypes
-import time
 from pyvisa import ResourceManager
 from pylabnet.utils.logging.logger import LogHandler
 
@@ -28,15 +27,15 @@ class Driver:
         #open the device
         #print(self.EAFGetNum())
         self.EAFopen()
-        try:
-            self.EAFmove(10000)
-            time.sleep(1)
-            self.log.info(self.EAFis_moving())
-            self.EAFstop()
-            self.log.info(self.EAFis_moving())
+        # try:
+        #     self.EAFmove(1000)
+        #     time.sleep(1)
+        #     self.log.info(self.EAFis_moving())
+        #     self.EAFstop()
+        #     self.log.info(self.EAFis_moving())
 
-        except:
-            self.log.info("Error while  moving")
+        # except:
+        #     self.log.info("Error while  moving")
 
     def EAFGetNum(self):
         """ Descriptions:

@@ -45,7 +45,8 @@ class Driver:
         self.minimumAngle = self.maxUsageAngle / 2**(self.bitResolution)
 
         #might be a code idea in future. Maybe just set them to xCenter and yCenter
-        #setDefaultCoords(500,400)
+        #self.setDefaultCoords(500,500)
+        #self.send_area_scan_0to1024(200,200, times = 10)
 
     #This functions sets the Galvo on the centercoords
 
@@ -72,17 +73,18 @@ class Driver:
 
     #This sends a command to arduino to scan specific area. It is possible to set the center of the scan
     #x_steps and y_steps are the amount of steps the galvo should take in x and y direction. Its basiccally the size of the area scanned
-    def send_area_scan_0to1024(self, x_steps, y_steps, x_center=-1, y_center=-1, times=100):
-
+    def send_area_scan_0to1024(self, x_steps, y_steps, x_center=-1, y_center=-1, times=10):
+        self.log.info("Sending times" + str(times))
         if x_center != -1 or y_center != -1:
             messageToSend = "areaStep" + ";" + str(x_center) + ";" + str(y_center) + ";" + str(x_steps) + ";" + str(y_steps) + ";" + str(times)
             self.arduino.write(bytes("areaStep" + ";" + str(x_center) + ";" + str(y_center) + ";" + str(x_steps) + ";" + str(y_steps) + ";" + str(times), 'utf-8'))
-            #print("Sending: "+messageToSend)
+            self.log.info("Sending: " + messageToSend)
 
         else:
             messageToSend = "areaStep" + ";" + str(self.xCenter) + ";" + str(self.yCenter) + ";" + str(x_steps) + ";" + str(y_steps) + ";" + str(times)
             self.arduino.write(bytes("areaStep" + ";" + str(self.xCenter) + ";" + str(self.yCenter) + ";" + str(x_steps) + ";" + str(y_steps) + ";" + str(times), 'utf-8'))
             #print("Sending: "+messageToSend)
+            self.log.info("Sending: " + messageToSend)
 
         self.log.info("Please wait until arduino is finished")
 
@@ -157,7 +159,7 @@ def get_driver_args(device_config, logger=None):
 
 #a= Driver(1, 1024,1,port = 'COM3', baudrate = 115200, bitsResolution = 10)
 #a.setDefaultCoords(512,512)
-# a.send_area_scan_0to1024(500,500,times =100)
+# a.send_area_scan_0to1024(500,500,times =10)
 # print(a.applyVoltageToDAC0to1024("DAC0",1023))
 # print(a.applyVoltageToDAC0to1024("DAC1",1023))
 #pm =Driver(0, 1024,1,port = 'COM3', baudrate = 115200, bitsResolution = 10,logger = logger)

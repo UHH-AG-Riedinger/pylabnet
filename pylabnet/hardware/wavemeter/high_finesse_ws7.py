@@ -52,6 +52,8 @@ class Driver(WavemeterInterface):
             self.log.warn(msg_str)
             # raise WavemeterError(msg_str)
 
+        logger.info(self.get_wavelength())
+
     def get_wavelength(self, channel=1, units='Frequency (THz)'):
         """ Returns the wavelength in specified units for a given channel
 

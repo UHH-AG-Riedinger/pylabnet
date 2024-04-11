@@ -12,13 +12,8 @@ except:
 Description: WILL ADD LATER...
 """
 
-import numpy as np
 
-from pylabnet.hardware.interface.gated_ctr import GatedCtrInterface
 from pylabnet.utils.logging.logger import LogHandler
-from pylabnet.network.core.service_base import ServiceBase
-from pylabnet.network.core.client_base import ClientBase
-from pylabnet.utils.decorators.dummy_wrapper import dummy_wrap
 
 
 class Driver:
@@ -31,7 +26,7 @@ class Driver:
         self.log = LogHandler(logger=logger)
         self.log.info('launching superK driver')
 
-        self.emission_off()
+        self.emission_on()
 
         self.read_power() # Is currently not working, so we just ignore it bc we need to get the NKTP_DLL file on the PC first
         return

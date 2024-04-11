@@ -7,7 +7,6 @@ https://github.com/AlexShkarin/pyLabLib/blob/master/pylablib/aux_libs/devices/M2
 Modifications by Graham Joe, M. Chalupnik
 """
 
-from pylabnet.utils.logging.logger import LogHandler
 import time
 import socket
 import json
@@ -744,26 +743,26 @@ class Driver():
             self.log.warn("unknown fast scan type: {}".format(scan_type))
 
 
-def main():
+# def main():
 
-    from pylabnet.utils.logging.logger import LogClient
+#     from pylabnet.utils.logging.logger import LogClient
 
-    logger = LogClient(
-        host='localhost',
-        port=12351,
-        module_tag='Spectrum Analyser'
-    )
+#     logger = LogClient(
+#         host='localhost',
+#         port=12351,
+#         module_tag='Spectrum Analyser'
+#     )
 
-    ip = '140.247.189.230'
-    port1 = '1111'
-    port2 = '2222'
-    tisa = Driver(
-        ip,
-        port1,
-        port2,
-        logger=logger
-    )
+#     ip = '140.247.189.230'
+#     port1 = '1111'
+#     port2 = '2222'
+#     tisa = Driver(
+#         ip,
+#         port1,
+#         port2,
+#         logger=logger
+#     )
 
 
-if __name__ == '__main__':
-    main()
+# if __name__ == '__main__':
+#     main()
