@@ -89,8 +89,8 @@ class Driver:
         self.log.info("Please wait until arduino is finished")
 
         message = ""
-        while message == "" or message == b'':
-            message = self.arduino.readline(4)
+        # while message == "" or message == b'':
+        #     message = self.arduino.readline(4)
 
         return message
 

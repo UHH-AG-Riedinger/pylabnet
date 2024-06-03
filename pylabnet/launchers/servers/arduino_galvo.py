@@ -7,7 +7,7 @@ from pylabnet.utils.helper_methods import get_ip, hide_console, load_device_conf
 
 
 def launch(**kwargs):
-    """ Connects to PM320E and instantiates server
+    """ Connects to Arduino and instantiates server
 
     :param kwargs: (dict) containing relevant kwargs
         :logger: instance of LogClient for logging purposes
