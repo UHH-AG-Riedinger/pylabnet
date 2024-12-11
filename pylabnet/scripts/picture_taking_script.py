@@ -11,7 +11,7 @@ nktLaser = hm.autoconnect_device(device_tag='white_laser', logger=logger)
 
 
 #Name of the experiment
-name = "202405010_AfterWarmup"
+name = "20241010_Test2"
 
 
 def take_picture(experiment_name):
@@ -20,7 +20,7 @@ def take_picture(experiment_name):
     nktLaser.emission_on()
 
     logger.info("Starting galvo....")
-    galvo.send_area_scan_0to1024(350, 600, 670, 250, times=3)
+    galvo.send_area_scan_0to1024(340, 700, 722, 402, times=1)
     #time.sleep(2)
     logger.info("Starting taking picture....")
     ZWOCamera.take_picture(name=experiment_name)
