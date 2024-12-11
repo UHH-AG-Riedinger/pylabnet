@@ -37,8 +37,8 @@ class Driver:
         self.camera.set_control_value(self.asi.ASI_BANDWIDTHOVERLOAD, self.camera.get_controls()['BandWidth']['MinValue'])
         self.camera.disable_dark_subtract()
 
-        self.camera.set_control_value(self.asi.ASI_GAIN, 70)
-        self.camera.set_control_value(self.asi.ASI_EXPOSURE, 900000)
+        self.camera.set_control_value(self.asi.ASI_GAIN, 25)
+        self.camera.set_control_value(self.asi.ASI_EXPOSURE, 4000000)
         self.camera.set_control_value(asi.ASI_WB_B, 99)
         self.camera.set_control_value(asi.ASI_WB_R, 75)
         self.camera.set_control_value(asi.ASI_GAMMA, 50)
