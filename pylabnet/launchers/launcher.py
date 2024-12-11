@@ -121,7 +121,7 @@ class Launcher:
             self._launch_servers()
         if not ('script_server' in self.config_dict and self.config_dict['script_server'] == 'False'):
             self._launch_script_server()
-        hide_console()
+        # hide_console()
         self._launch_scripts()
 
     def _connect_to_logger(self):
