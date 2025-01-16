@@ -147,6 +147,17 @@ class DLC_Pro:
         self.dlc.write(write_data)
         self.dlc.read_until(b'>', timeout=1)
 
+    def set_ao_voltage(self, voltage, laser_num=1):
+        """ Sets voltage to the piezo
+
+        :param voltage: (float) voltage to set
+        """
+
+        v = deepcopy(voltage)
+        write_data = f"(param-set! 'laser{laser_num}:dl:pc:voltage-set {v})\n".encode('utf')
+        self.dlc.write(write_data)
+        self.dlc.read_until(b'>', timeout=0.4)
+
     def current_sp(self, laser_num=1):
         """ Gets current setpoint
 

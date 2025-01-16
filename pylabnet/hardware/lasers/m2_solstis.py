@@ -11,6 +11,7 @@ import time
 import socket
 import json
 import websocket
+from pylabnet.utils.logging.logger import LogHandler
 
 BUFFERSIZE = 2048
 MIN_WAVELENGTH = 650
@@ -26,10 +27,9 @@ class Driver():
         self.address1 = (ip, port1)
         self.address2 = (ip, port2)
         self.transmission_id = 1
-        self._last_status = {}
-        self.connect_laser()
-
-        self.log = logger
+        self.log = LogHandler(logger)
+        #self._last_status = {}
+        #self.connect_laser()
 
     def connect_laser(self):
         """ Connect to Instrument.

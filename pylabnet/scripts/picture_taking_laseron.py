@@ -23,10 +23,11 @@ def take_picture(experiment_name):
 
 #set how long pictures are being taken
 start_time = time.time()
-end_time = start_time + 60 # 8 hours in seconds
+end_time = start_time + 60
 
 while time.time() < end_time:
     take_picture(name)
+
     # Busy waiting, avoid for long running commands
     time.sleep(5)  # 600 seconds are 10 minutes
 
@@ -34,3 +35,4 @@ while time.time() < end_time:
 # pmX.send_area_scan_0to1024(100, 100, 642, 550, times=500)
 # print(pmX.applyVoltageToDAC0to1024("DAC1", 550))
 # print(pmX.applyVoltageToDAC0to1024("DAC0", 642))
+# Reach me timo.eikelmann@gmx.de
