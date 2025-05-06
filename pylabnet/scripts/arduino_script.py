@@ -1,22 +1,31 @@
 import pylabnet.utils.logging.logger as lg
 import pylabnet.utils.helper_methods as hm
 
+import numpy as np
+
 logger = lg.LogClient()
 
 pmX = hm.autoconnect_device(device_tag='Arduino_Galvo', logger=logger)
 
 nktLaser = hm.autoconnect_device(device_tag='white_laser', logger=logger)
-nktLaser.emission_off()#if this does not work, restart the laser device server in pylabnet
+# nktLaser.emission_off()#if this does not work, restart the laser device server in pylabnet
 
-#pmX.send_area_scan_0to1024(340, 450, 782, 312, times=0)
-#pmX.send_area_scan_0to1024(1024, 1024, 512, 512, times=0)
+# pmX.send_area_scan_0to1024(1024, 1024, 1024, 1024, times=0)
+#pmX.send_area_scan_0to1024(150, 150, 632, 532, times=0)
+
+#oben, unten, y,x
+##pmX.send_area_scan_0to1024(300, 400, 712, 712, times=0)
+
 #pmX.send_area_scan_0to1024(204, 100, 822, 462, times=0)
 #pmX.send_area_scan_0to1024(420, 550, 400, 730, times=0)
 #420 and 550 : vetzical horizontal
-print(pmX.applyVoltageToDAC0to1024("DAC1", 512))#275 x axis825
-print(pmX.applyVoltageToDAC0to1024("DAC0", 780))#394 y axis#80#814
+#print(pmX.applyVoltageToDAC0to1024("DAC1", 512))#275 x axis825
+#print(pmX.applyVoltageToDAC0to1024("DAC0", 112))#394 y axis#80#814
 
-#pmX.send_area_scan_0to1024(300, 200, 730, 512, times=0)
+
+#pmX.send_area_scan_0to1024(1024, 1024, 512, 512, times=0)
+
+#pmX.send_area_scan_0to1024(200, 300, 580, 112, times=0)
 
 #pmX.send_area_scan_0to1024(160, 550, 80, 575, times=0)
 #pmX.send_area_scan_0to1024(420, 550, 813, 730, times=0)

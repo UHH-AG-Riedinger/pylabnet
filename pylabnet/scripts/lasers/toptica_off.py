@@ -1,11 +1,10 @@
-from pylabnet.utils.helper_methods import unpack_launcher
+import pylabnet.utils.logging.logger as lg
+import pylabnet.utils.helper_methods as hm
+import numpy as np
 
+logger = lg.LogClient()
 
-def launch(**kwargs):
-    """ Launches the WLM monitor + lock script """
+dlc_pro = hm.autoconnect_device(device_tag='toptica_dlc_pro', logger=logger)
 
-    logger, loghost, logport, clients, guis, params = unpack_launcher(**kwargs)
-
-    toptica_client = clients['toptica_dlc_pro']
-
-    toptica_client.turn_off()
+logger.info('DLC Connected')
+b = dlc_pro.turn_on()

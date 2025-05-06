@@ -2,7 +2,7 @@ import pylabnet.utils.logging.logger as lg
 import pylabnet.utils.helper_methods as hm
 import pyvisa
 import numpy as np
-
+import time
 import os
 import discord
 from dotenv import load_dotenv
@@ -27,7 +27,7 @@ async def on_ready():
     print(f'We have logged in as {client.user}')
 
 
-@client.event
+""" @client.event
 async def on_message(message):
     if message.author == client.user:
         return
@@ -40,11 +40,9 @@ async def on_message(message):
         await message.channel.send("The power of the red power meter is at: " + str(power))
 
 client.run(TOKEN) # This is the actual token that is used to run the bot
+ """
 
-"""
 for i in range(5):
     power = pmX.get_power()
     print(power)
     time.sleep(1)
-
-"""

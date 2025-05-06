@@ -674,10 +674,11 @@ class Channel:
                         self.current_voltage = self._min_voltage
                     else:
                         self.current_voltage = self._max_voltage
-                    self.ao['client'].set_ao_voltage(
+                    """ self.ao['client'].set_ao_voltage(
                         ao_channel=self.ao['channel'],
-                        voltages=[self.current_voltage]
-                    )
+                        voltage=[self.current_voltage] """
+                    self.ao['client'].set_voltage(self.current_voltage)
+
             except EOFError:
                 self.ao = None
 
@@ -714,7 +715,7 @@ class Channel:
         else:
 
             # By default use channel 1
-            self.number = 1
+            self.number = 2
 
         if 'name' in channel_params:
             self.name = channel_params['name']
@@ -833,6 +834,7 @@ def launch(**kwargs):
         )
 
     channel_params = [p for p in config['channels'].values()]
+    logger.info(ao_clients)
     logger.info(channel_params)
     params = dict(channel_params=channel_params)
 

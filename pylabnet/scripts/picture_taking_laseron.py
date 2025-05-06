@@ -12,7 +12,7 @@ nktLaser.emission_on()
 galvo.send_area_scan_0to1024(350, 600, 670, 250, times=0)
 
 #Name of the experiment
-name = "20240429_Vented_moved0.1-0.2mmCloserUnsharp"
+name = "2025test"
 
 
 def take_picture(experiment_name):
