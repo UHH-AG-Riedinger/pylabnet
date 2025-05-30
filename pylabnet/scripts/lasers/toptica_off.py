@@ -7,4 +7,4 @@ logger = lg.LogClient()
 dlc_pro = hm.autoconnect_device(device_tag='toptica_dlc_pro', logger=logger)
 
 logger.info('DLC Connected')
-b = dlc_pro.turn_on()
+b = dlc_pro.turn_off()

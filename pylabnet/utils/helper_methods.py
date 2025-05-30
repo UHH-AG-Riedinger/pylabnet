@@ -904,6 +904,7 @@ def launch_device_server(server, dev_config, log_ip, log_port, server_port, debu
 
     if server_port is None:
         server_port = np.random.randint(1024, 49151)
+        logger.info(f'No server port specified. Using {server_port}')
 
     # Build command()
     operating_system = get_os()
@@ -944,6 +945,7 @@ def launch_device_server(server, dev_config, log_ip, log_port, server_port, debu
         subprocess.Popen(cmd, shell=True)
 
     logger.info(f"Cmd: {cmd}")
+    logger.info(f"launch device server on {host_ip}:{server_port}")
 
     return host_ip, server_port
 

@@ -114,6 +114,7 @@ def main():
     update_flag = False
     while tries < 10:
         if server_port is None:
+            server_logger.info('No server port provided. Generating random port number.')
             server_port = np.random.randint(1024, 49151)
             update_flag = True
         try:
@@ -126,7 +127,10 @@ def main():
 
             if update_flag:
                 server_logger.update_data(data=dict(port=server_port))
+
+            server_logger.info(f'Server launched at port: {server_port}')
             tries = 10
+
         except OSError:
             server_logger.warn(f'Failed to launch server at port: {server_port}')
             tries += 1

@@ -163,6 +163,7 @@ class LogClient:
         self._module_tag = module_tag
 
         # Connect to log server
+
         self.connect(host=host, port=port, key=key)
 
         # Set module alias to display with log messages
@@ -432,7 +433,7 @@ class LogService(rpyc.Service):
     def on_connect(self, conn):
         # code that runs when a connection is created
         # (to init the service, if needed)
-        self.logger.info('Client connected')
+        self.logger.info('Client connected!')
 
     def on_disconnect(self, conn):
         # code that runs after the connection has already closed

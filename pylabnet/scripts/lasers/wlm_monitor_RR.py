@@ -677,7 +677,7 @@ class Channel:
                     """ self.ao['client'].set_ao_voltage(
                         ao_channel=self.ao['channel'],
                         voltage=[self.current_voltage] """
-                    self.ao['client'].set_voltage(self.current_voltage)
+                    self.ao['client'].set_voltage(self.current_voltage, self._max_voltage)
 
             except EOFError:
                 self.ao = None
@@ -807,7 +807,7 @@ def launch(**kwargs):
     )
 
     # TODO: Generalize this for n lasers.
-    if config['num_lasers'] == 1:
+    if config['num_lasers'] == 2:
         three_lasers = True
     else:
         three_lasers = False

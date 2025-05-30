@@ -52,8 +52,6 @@ class LaunchWindow(Window):
 
         self.terminal.setReadOnly(True)
 
-
-
     def closeEvent(self, event):
         """ Occurs when window is closed. Overwrites parent class method"""
 
@@ -408,7 +406,7 @@ class Controller:
         self.main_window.logfile_status_button.setHidden(True)
         self.main_window.log_previous.setHidden(True)
         self.main_window.logfile_status_indicator.setEnabled(False)
-        
+
         self.main_window.confluence_update.clicked.connect(self.confluence_info_update)
 
         # Configure list of scripts to run and clicking actions
@@ -621,9 +619,12 @@ class Controller:
             # Raise flags if selected in combobox
             if self.debug and self.debug_level == "pylabnet_server":
                 server_debug_flag = '1'
-
-            server_port = np.random.randint(1024, 49151)
-
+            if device_server == "m2_solstis":
+                server_port = 1024
+                self.gui_logger.info(f'Starting TISA server at port {server_port}')
+                server_debug_flag = '0'
+            else:
+                server_port = None#np.random.randint(1024, 49151)
             try:
                 launch_device_server(
                     server=device_server,
@@ -932,7 +933,7 @@ class Controller:
                     filepath = config_dict['logger_path']
                 except:
                     self.main_window.terminal.setPlainText('Critical error: '
-                                                      'no logger_path found in static_proxy.json')
+                                                           'no logger_path found in static_proxy.json')
                     self.main_window.force_update()
                     time.sleep(10)
                     raise
@@ -1102,6 +1103,7 @@ class ProxyUpdater(QtCore.QObject):
                 self.update_signal.emit(new_msg)
 
             self.controller.last_seen_buffer = buffer_terminal
+
 
 def main():
     """ Runs the launch controller """
